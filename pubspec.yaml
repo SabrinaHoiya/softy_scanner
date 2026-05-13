@@ -1,0 +1,29 @@
+name: softy_scanner
+description: "A Flutter package for document scanning with camera support, single/multiple page modes, and gallery import."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.9.0
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  camera: ^0.11.1
+  image_picker: ^1.1.2
+  flutter_bloc: ^9.1.0
+  equatable: ^2.0.7
+  image: ^4.5.3
+  crop_your_image: ^1.1.0
+  pdf: ^3.11.2
+  path_provider: ^2.1.5
+  share_plus: ^10.1.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  bloc_test: ^10.0.0
+
+flutter:
