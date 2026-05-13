@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
   Future<void> _openScanner(BuildContext context) async {
     final result = await SoftyScannerScreen.launch(
       context,
-      config: ScannerConfig(locale: ScannerLocale.ar),
+      config: ScannerConfig(locale: ScannerLocale.fr),
     );
 
     if (!context.mounted) return;

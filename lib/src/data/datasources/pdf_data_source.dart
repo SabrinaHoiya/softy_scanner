@@ -1,25 +1,24 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
-import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 /// Handles PDF generation and file operations.
-/// Heavy image processing runs on background isolates via [compute].
 class PdfDataSource {
   /// Generate a PDF with each image as a full page.
   Future<File> generatePdf({
     required List<File> imageFiles,
     required String title,
   }) async {
-    // Pre-process all images in parallel on background isolates.
+    // Convert all images to JPEG/PNG bytes the pdf package can handle.
     final futures = imageFiles.map((f) async {
       final bytes = await f.readAsBytes();
-      return _needsConversion(bytes)
-          ? await compute(_convertToJpegIsolate, bytes)
-          : bytes;
+      if (_isJpeg(bytes) || _isPng(bytes)) return bytes;
+      // Use Flutter's native codec — supports HEIC, WebP, etc.
+      return _convertToJpegNative(bytes);
     });
     final allBytes = await Future.wait(futures);
 
@@ -54,8 +53,18 @@ class PdfDataSource {
     return pdfFile.copy(destination.path);
   }
 
-  bool _needsConversion(Uint8List bytes) =>
-      !_isJpeg(bytes) && !_isPng(bytes);
+  /// Decode any image using the platform's native codec and re-encode as PNG.
+  Future<Uint8List> _convertToJpegNative(Uint8List bytes) async {
+    final codec = await ui.instantiateImageCodec(bytes);
+    final frame = await codec.getNextFrame();
+    final image = frame.image;
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    image.dispose();
+    if (byteData == null) {
+      throw Exception('Failed to convert image for PDF');
+    }
+    return Uint8List.sublistView(byteData.buffer.asUint8List());
+  }
 
   bool _isJpeg(Uint8List bytes) =>
       bytes.length >= 2 && bytes[0] == 0xFF && bytes[1] == 0xD8;
@@ -66,12 +75,4 @@ class PdfDataSource {
       bytes[1] == 0x50 &&
       bytes[2] == 0x4E &&
       bytes[3] == 0x47;
-}
-
-/// Top-level function for [compute] — decodes any image format and
-/// re-encodes as JPEG on a background isolate.
-Uint8List _convertToJpegIsolate(Uint8List bytes) {
-  final decoded = img.decodeImage(bytes);
-  if (decoded == null) throw Exception('Unable to decode image');
-  return Uint8List.fromList(img.encodeJpg(decoded, quality: 95));
 }

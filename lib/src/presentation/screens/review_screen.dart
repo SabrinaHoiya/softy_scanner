@@ -256,10 +256,14 @@ class _ReviewViewState extends State<_ReviewView> {
   Future<void> _openCropScreen(BuildContext context, ReviewState state) async {
     if (state.isOnAddCard || !state.hasPages) return;
 
+    final quarterTurns = state.currentIndex < state.rotations.length
+        ? state.rotations[state.currentIndex]
+        : 0;
     final croppedBytes = await CropScreen.launch(
       context,
       imageFile: state.pages[state.currentIndex],
       config: config,
+      quarterTurns: quarterTurns,
     );
 
     if (croppedBytes != null && context.mounted) {
