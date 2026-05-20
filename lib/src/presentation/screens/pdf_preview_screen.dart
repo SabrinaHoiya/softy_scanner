@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../data/datasources/pdf_data_source.dart';
 import '../../data/repositories/pdf_repository_impl.dart';
@@ -196,8 +197,15 @@ class _PdfPreviewViewState extends State<_PdfPreviewView> {
                     ),
                   ),
                   const SizedBox(width: 6),
-                  Icon(Icons.edit_outlined,
-                      color: config.accentColor, size: 18),
+                  SvgPicture.asset(
+                    'packages/softy_scanner/lib/src/assets/icons/ic_edit.svg',
+                          width: 18,
+                    height: 18,
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xFF4C5063),
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -224,12 +232,19 @@ class _PdfPreviewViewState extends State<_PdfPreviewView> {
               onTap: () => context
                   .read<PdfPreviewBloc>()
                   .add(const PdfPreviewToggleReorder()),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFCFCFF),
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(color: const Color(0xFFE8EAF5)),
+                ),
                 child: Text(
                   config.reorderPagesLabel,
-                  style: TextStyle(
-                    color: config.accentColor,
+                  style: const TextStyle(
+                    color: Color(0xFF4C5063),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -315,19 +330,29 @@ class _PdfPreviewViewState extends State<_PdfPreviewView> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 24),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color(0xFFFCFCFF),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.black12),
+          border: Border.all(color: const Color(0xFFE8EAF5)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.add_circle_outline,
-                color: Colors.black45, size: 22),
+            SvgPicture.asset(
+              'packages/softy_scanner/lib/src/assets/icons/ic_add.svg',
+              width: 22,
+              height: 22,
+              colorFilter: const ColorFilter.mode(
+                Color(0xFF4C5063),
+                BlendMode.srcIn,
+              ),
+            ),
             const SizedBox(width: 8),
             Text(
               config.addPagesLabel,
-              style: const TextStyle(color: Colors.black54, fontSize: 15),
+              style: const TextStyle(
+                color: Color(0xFF4C5063),
+                fontSize: 15,
+              ),
             ),
           ],
         ),
@@ -351,14 +376,22 @@ class _PdfPreviewViewState extends State<_PdfPreviewView> {
       child: Row(
         children: [
           _ToolbarAction(
-            icon: Icons.add_photo_alternate_outlined,
+            iconWidget: SvgPicture.asset(
+              'packages/softy_scanner/lib/src/assets/icons/ic_add.svg',
+              width: 24,
+              height: 24,
+            ),
             label: config.addPagesLabel,
             onTap: () => _addMorePages(context),
           ),
           const SizedBox(width: 16),
           if (state.isReorderMode)
             _ToolbarAction(
-              icon: Icons.delete_outline,
+              iconWidget: SvgPicture.asset(
+                'packages/softy_scanner/lib/src/assets/icons/ic_delete.svg',
+                  width: 24,
+                height: 24,
+              ),
               label: config.removeLabel,
               onTap: state.hasSelection
                   ? () => context
@@ -368,7 +401,11 @@ class _PdfPreviewViewState extends State<_PdfPreviewView> {
             )
           else
             _ToolbarAction(
-              icon: Icons.edit_outlined,
+              iconWidget: SvgPicture.asset(
+                'packages/softy_scanner/lib/src/assets/icons/ic_edit.svg',
+                  width: 24,
+                height: 24,
+              ),
               label: config.modifyLabel,
               onTap: () {
                 Navigator.of(context).pop(
@@ -788,12 +825,12 @@ class _ReorderGridState extends State<_ReorderGrid> {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 class _ToolbarAction extends StatelessWidget {
-  final IconData icon;
+  final Widget iconWidget;
   final String label;
   final VoidCallback? onTap;
 
   const _ToolbarAction({
-    required this.icon,
+    required this.iconWidget,
     required this.label,
     this.onTap,
   });
@@ -808,7 +845,10 @@ class _ToolbarAction extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color, size: 24),
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+              child: iconWidget,
+            ),
             const SizedBox(height: 4),
             Text(label, style: TextStyle(color: color, fontSize: 11)),
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../domain/entities/scanner_config.dart';
 
@@ -38,7 +39,15 @@ class ReviewToolbar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _ToolbarAction(
-            icon: Icons.add_circle_outline,
+            iconWidget: SvgPicture.asset(
+              'packages/softy_scanner/lib/src/assets/icons/ic_add.svg',
+              width: 24,
+              height: 24,
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+            ),
             label: config.addLabel,
             onTap: onAdd,
             enabled: true,
@@ -56,7 +65,15 @@ class ReviewToolbar extends StatelessWidget {
             enabled: actionsEnabled,
           ),
           _ToolbarAction(
-            icon: Icons.delete_outline,
+            iconWidget: SvgPicture.asset(
+              'packages/softy_scanner/lib/src/assets/icons/ic_delete.svg',
+              width: 24,
+              height: 24,
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+            ),
             label: config.deleteLabel,
             onTap: onDelete,
             enabled: actionsEnabled,
@@ -87,13 +104,15 @@ class ReviewToolbar extends StatelessWidget {
 }
 
 class _ToolbarAction extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
+  final Widget? iconWidget;
   final String label;
   final VoidCallback onTap;
   final bool enabled;
 
   const _ToolbarAction({
-    required this.icon,
+    this.icon,
+    this.iconWidget,
     required this.label,
     required this.onTap,
     required this.enabled,
@@ -107,7 +126,13 @@ class _ToolbarAction extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: color, size: 24),
+          if (iconWidget != null)
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+              child: iconWidget!,
+            )
+          else
+            Icon(icon, color: color, size: 24),
           const SizedBox(height: 4),
           Text(label, style: TextStyle(color: color, fontSize: 11)),
         ],

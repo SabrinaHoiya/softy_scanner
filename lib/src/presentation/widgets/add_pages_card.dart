@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../domain/entities/scanner_config.dart';
 
@@ -40,10 +41,14 @@ class AddPagesCard extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: Colors.white.withValues(alpha: 0.15),
                 ),
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white70,
-                  size: 28,
+                child: SvgPicture.asset(
+                  'packages/softy_scanner/lib/src/assets/icons/ic_add.svg',
+                  width: 28,
+                  height: 28,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white70,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
