@@ -1,6 +1,6 @@
 name: softy_scanner
 description: "A Flutter package for document scanning with camera support, single/multiple page modes, and gallery import."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/SabrinaHoiya/softy_scanner
 repository: https://github.com/SabrinaHoiya/softy_scanner
 issue_tracker: https://github.com/SabrinaHoiya/softy_scanner

@@ -10,16 +10,12 @@ class ScanResult extends Equatable {
   /// Whether the user cancelled the scanner.
   final bool isCancelled;
 
-  /// The user-provided title for this scan (set in the review screen).
-  final String? title;
-
   /// The generated PDF file (set after the user confirms in PDF preview).
   final File? pdfFile;
 
   const ScanResult({
     required this.scannedPages,
     this.isCancelled = false,
-    this.title,
     this.pdfFile,
   });
 
@@ -27,7 +23,6 @@ class ScanResult extends Equatable {
   const ScanResult.cancelled()
       : scannedPages = const [],
         isCancelled = true,
-        title = null,
         pdfFile = null;
 
   /// Whether any pages were captured.
@@ -40,5 +35,5 @@ class ScanResult extends Equatable {
   bool get hasPdf => pdfFile != null;
 
   @override
-  List<Object?> get props => [scannedPages, isCancelled, title, pdfFile];
+  List<Object?> get props => [scannedPages, isCancelled, pdfFile];
 }

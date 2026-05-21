@@ -21,16 +21,6 @@ class PdfPreviewGenerate extends PdfPreviewEvent {
   List<Object?> get props => [images, title];
 }
 
-/// Rename the document title.
-class PdfPreviewRenameTitle extends PdfPreviewEvent {
-  final String newTitle;
-
-  const PdfPreviewRenameTitle(this.newTitle);
-
-  @override
-  List<Object?> get props => [newTitle];
-}
-
 /// Toggle between normal and reorder mode.
 class PdfPreviewToggleReorder extends PdfPreviewEvent {
   const PdfPreviewToggleReorder();

@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text(result.title ?? '${result.pageCount} page(s) scanned'),
+        title: Text('${result.pageCount} page(s) scanned'),
         content: SizedBox(
           width: double.maxFinite,
           height: 340,

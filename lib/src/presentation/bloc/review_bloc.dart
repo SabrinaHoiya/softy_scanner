@@ -26,7 +26,6 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     on<ReviewPageDeleted>(_onPageDeleted);
     on<ReviewPagesAdded>(_onPagesAdded);
     on<ReviewConfirmRequested>(_onConfirmRequested);
-    on<ReviewTitleConfirmed>(_onTitleConfirmed);
   }
 
   void _onInitialized(ReviewInitialized event, Emitter<ReviewState> emit) {
@@ -111,15 +110,8 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
     ));
   }
 
-  void _onConfirmRequested(
+  Future<void> _onConfirmRequested(
     ReviewConfirmRequested event,
-    Emitter<ReviewState> emit,
-  ) {
-    emit(state.copyWith(status: ReviewStatus.titleDialog));
-  }
-
-  Future<void> _onTitleConfirmed(
-    ReviewTitleConfirmed event,
     Emitter<ReviewState> emit,
   ) async {
     emit(state.copyWith(status: ReviewStatus.processing));
@@ -137,7 +129,6 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
 
       emit(state.copyWith(
         status: ReviewStatus.confirmed,
-        title: event.title,
         pages: pages,
         rotations: List.filled(pages.length, 0),
       ));

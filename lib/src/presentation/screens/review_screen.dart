@@ -17,7 +17,6 @@ import '../widgets/add_pages_card.dart';
 import '../widgets/page_indicator.dart';
 import '../widgets/review_toolbar.dart';
 import '../widgets/review_top_bar.dart';
-import '../widgets/title_dialog.dart';
 import 'crop_screen.dart';
 import 'pdf_preview_screen.dart';
 import 'scanner_screen.dart';
@@ -75,14 +74,6 @@ class _ReviewViewState extends State<_ReviewView> {
     super.dispose();
   }
 
-  String _defaultTitle() {
-    final now = DateTime.now();
-    final formatted = '${now.day.toString().padLeft(2, '0')}-'
-        '${now.month.toString().padLeft(2, '0')}-'
-        '${now.year}';
-    return '${config.defaultTitlePrefix} $formatted';
-  }
-
   /// Sync the PageController when the BLoC index changes externally
   /// (e.g. after delete, add pages, rotation).
   void _syncPageController(ReviewState state) {
@@ -129,7 +120,6 @@ class _ReviewViewState extends State<_ReviewView> {
               // Top bar
               ReviewTopBar(
                 config: config,
-                title: _defaultTitle(),
                 onBack: () => Navigator.of(context).pop(),
               ),
 
@@ -168,7 +158,9 @@ class _ReviewViewState extends State<_ReviewView> {
                 onDelete: () => context
                     .read<ReviewBloc>()
                     .add(const ReviewPageDeleted()),
-                onConfirm: () => _showTitleDialog(context),
+                onConfirm: () => context
+                    .read<ReviewBloc>()
+                    .add(const ReviewConfirmRequested()),
               ),
             ],
           ),
@@ -271,17 +263,6 @@ class _ReviewViewState extends State<_ReviewView> {
     }
   }
 
-  Future<void> _showTitleDialog(BuildContext context) async {
-    final title = await TitleDialog.show(
-      context,
-      config: config,
-      initialTitle: _defaultTitle(),
-    );
-    if (title != null && context.mounted) {
-      context.read<ReviewBloc>().add(ReviewTitleConfirmed(title));
-    }
-  }
-
   Future<void> _navigateToPdfPreview(
     BuildContext context,
     ReviewState state,
@@ -290,7 +271,6 @@ class _ReviewViewState extends State<_ReviewView> {
       MaterialPageRoute(
         builder: (_) => PdfPreviewScreen(
           images: state.pages,
-          title: state.title ?? _defaultTitle(),
           config: config,
         ),
       ),

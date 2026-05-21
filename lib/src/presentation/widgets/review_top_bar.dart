@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../domain/entities/scanner_config.dart';
 
-/// Top bar for the review screen with back arrow and scan title.
+/// Top bar for the review screen with back arrow.
 class ReviewTopBar extends StatelessWidget {
   final ScannerConfig config;
-  final String title;
   final VoidCallback onBack;
 
   const ReviewTopBar({
     super.key,
     required this.config,
-    required this.title,
     required this.onBack,
   });
 
@@ -31,19 +29,7 @@ class ReviewTopBar extends StatelessWidget {
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: onBack,
           ),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          // Spacer to balance the back button width.
-          const SizedBox(width: 48),
+          const Spacer(),
         ],
       ),
     );

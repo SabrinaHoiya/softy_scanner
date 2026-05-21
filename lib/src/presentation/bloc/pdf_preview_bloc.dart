@@ -20,7 +20,6 @@ class PdfPreviewBloc extends Bloc<PdfPreviewEvent, PdfPreviewState> {
         _savePdf = savePdf,
         super(const PdfPreviewState()) {
     on<PdfPreviewGenerate>(_onGenerate);
-    on<PdfPreviewRenameTitle>(_onRenameTitle);
     on<PdfPreviewToggleReorder>(_onToggleReorder);
     on<PdfPreviewReorder>(_onReorder);
     on<PdfPreviewApplyOrder>(_onApplyOrder);
@@ -58,13 +57,6 @@ class PdfPreviewBloc extends Bloc<PdfPreviewEvent, PdfPreviewState> {
         errorMessage: 'Failed to generate PDF: $e',
       ));
     }
-  }
-
-  void _onRenameTitle(
-    PdfPreviewRenameTitle event,
-    Emitter<PdfPreviewState> emit,
-  ) {
-    emit(state.copyWith(title: event.newTitle));
   }
 
   void _onToggleReorder(

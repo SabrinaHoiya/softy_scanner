@@ -15,8 +15,6 @@ class ScannerStrings {
   final String deleteLabel;
   final String effectuerLabel;
   final String continueAddPagesLabel;
-  final String titleLabel;
-  final String confirmLabel;
   final String defaultTitlePrefix;
   final String reorderPagesLabel;
   final String selectAllLabel;
@@ -39,8 +37,6 @@ class ScannerStrings {
     required this.deleteLabel,
     required this.effectuerLabel,
     required this.continueAddPagesLabel,
-    required this.titleLabel,
-    required this.confirmLabel,
     required this.defaultTitlePrefix,
     required this.reorderPagesLabel,
     required this.selectAllLabel,
@@ -64,8 +60,6 @@ class ScannerStrings {
     deleteLabel: 'Delete',
     effectuerLabel: 'Done',
     continueAddPagesLabel: 'Continue adding pages',
-    titleLabel: 'Title',
-    confirmLabel: 'Confirm',
     defaultTitlePrefix: 'Scan',
     reorderPagesLabel: 'Reorder pages',
     selectAllLabel: 'Select all',
@@ -89,8 +83,6 @@ class ScannerStrings {
     deleteLabel: 'Supprimer',
     effectuerLabel: 'Effectuer',
     continueAddPagesLabel: 'Continuer \u00e0 ajouter des pages',
-    titleLabel: 'Titre',
-    confirmLabel: 'Confirmer',
     defaultTitlePrefix: 'Scan',
     reorderPagesLabel: 'R\u00e9organiser pages',
     selectAllLabel: 'Tout s\u00e9lect.',
@@ -116,8 +108,6 @@ class ScannerStrings {
     effectuerLabel: '\u062a\u0623\u0643\u064a\u062f',
     continueAddPagesLabel:
         '\u0645\u062a\u0627\u0628\u0639\u0629 \u0625\u0636\u0627\u0641\u0629 \u0627\u0644\u0635\u0641\u062d\u0627\u062a',
-    titleLabel: '\u0627\u0644\u0639\u0646\u0648\u0627\u0646',
-    confirmLabel: '\u062a\u0623\u0643\u064a\u062f',
     defaultTitlePrefix: '\u0645\u0633\u062d',
     reorderPagesLabel:
         '\u0625\u0639\u0627\u062f\u0629 \u062a\u0631\u062a\u064a\u0628',

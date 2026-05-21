@@ -61,17 +61,7 @@ class ReviewPagesAdded extends ReviewEvent {
   List<Object?> get props => [newPages];
 }
 
-/// User tapped "Effectuer" — show the title dialog.
+/// User tapped "Effectuer" — confirm and proceed.
 class ReviewConfirmRequested extends ReviewEvent {
   const ReviewConfirmRequested();
-}
-
-/// User confirmed the title in the dialog.
-class ReviewTitleConfirmed extends ReviewEvent {
-  final String title;
-
-  const ReviewTitleConfirmed(this.title);
-
-  @override
-  List<Object?> get props => [title];
 }

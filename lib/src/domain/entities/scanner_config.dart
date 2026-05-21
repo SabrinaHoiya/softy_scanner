@@ -49,8 +49,6 @@ class ScannerConfig {
   final String deleteLabel;
   final String effectuerLabel;
   final String continueAddPagesLabel;
-  final String titleLabel;
-  final String confirmLabel;
   final String defaultTitlePrefix;
 
   // ── PDF preview screen labels ──────────────────────────────────────────
@@ -86,8 +84,6 @@ class ScannerConfig {
     String? deleteLabel,
     String? effectuerLabel,
     String? continueAddPagesLabel,
-    String? titleLabel,
-    String? confirmLabel,
     String? defaultTitlePrefix,
     String? reorderPagesLabel,
     String? selectAllLabel,
@@ -118,8 +114,6 @@ class ScannerConfig {
       effectuerLabel: effectuerLabel ?? s.effectuerLabel,
       continueAddPagesLabel:
           continueAddPagesLabel ?? s.continueAddPagesLabel,
-      titleLabel: titleLabel ?? s.titleLabel,
-      confirmLabel: confirmLabel ?? s.confirmLabel,
       defaultTitlePrefix: defaultTitlePrefix ?? s.defaultTitlePrefix,
       reorderPagesLabel: reorderPagesLabel ?? s.reorderPagesLabel,
       selectAllLabel: selectAllLabel ?? s.selectAllLabel,
@@ -151,8 +145,6 @@ class ScannerConfig {
     required this.deleteLabel,
     required this.effectuerLabel,
     required this.continueAddPagesLabel,
-    required this.titleLabel,
-    required this.confirmLabel,
     required this.defaultTitlePrefix,
     required this.reorderPagesLabel,
     required this.selectAllLabel,

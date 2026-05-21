@@ -7,7 +7,6 @@ enum ReviewStatus {
   initial,
   ready,
   processing,
-  titleDialog,
   confirmed,
 }
 
@@ -16,7 +15,6 @@ class ReviewState extends Equatable {
   final ReviewStatus status;
   final List<File> pages;
   final int currentIndex;
-  final String? title;
 
   /// Incremented after rotation/crop to force Image.file cache invalidation.
   final int imageVersion;
@@ -28,7 +26,6 @@ class ReviewState extends Equatable {
     this.status = ReviewStatus.initial,
     this.pages = const [],
     this.currentIndex = 0,
-    this.title,
     this.imageVersion = 0,
     this.rotations = const [],
   });
@@ -51,7 +48,6 @@ class ReviewState extends Equatable {
     ReviewStatus? status,
     List<File>? pages,
     int? currentIndex,
-    String? title,
     int? imageVersion,
     List<int>? rotations,
   }) {
@@ -59,7 +55,6 @@ class ReviewState extends Equatable {
       status: status ?? this.status,
       pages: pages ?? this.pages,
       currentIndex: currentIndex ?? this.currentIndex,
-      title: title ?? this.title,
       imageVersion: imageVersion ?? this.imageVersion,
       rotations: rotations ?? this.rotations,
     );
@@ -67,5 +62,5 @@ class ReviewState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [status, pages, currentIndex, title, imageVersion, rotations];
+      [status, pages, currentIndex, imageVersion, rotations];
 }

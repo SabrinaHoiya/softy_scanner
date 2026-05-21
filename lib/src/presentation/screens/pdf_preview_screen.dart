@@ -16,22 +16,27 @@ import '../../domain/usecases/save_pdf_usecase.dart';
 import '../bloc/pdf_preview_bloc.dart';
 import '../bloc/pdf_preview_event.dart';
 import '../bloc/pdf_preview_state.dart';
-import '../widgets/title_dialog.dart';
 import 'scanner_screen.dart';
 
 /// Screen that shows a preview of scanned pages with reorder, delete,
 /// and save-as-PDF / save-as-image options.
 class PdfPreviewScreen extends StatelessWidget {
   final List<File> images;
-  final String title;
   final ScannerConfig config;
 
   const PdfPreviewScreen({
     super.key,
     required this.images,
-    required this.title,
     required this.config,
   });
+
+  String _generateTitle() {
+    final now = DateTime.now();
+    final formatted = '${now.day.toString().padLeft(2, '0')}-'
+        '${now.month.toString().padLeft(2, '0')}-'
+        '${now.year}';
+    return '${config.defaultTitlePrefix} $formatted';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +47,7 @@ class PdfPreviewScreen extends StatelessWidget {
       create: (_) => PdfPreviewBloc(
         generatePdf: GeneratePdfUseCase(repo),
         savePdf: SavePdfUseCase(repo),
-      )..add(PdfPreviewGenerate(images: images, title: title)),
+      )..add(PdfPreviewGenerate(images: images, title: _generateTitle())),
       child: _PdfPreviewView(config: config),
     );
   }
@@ -81,7 +86,6 @@ class _PdfPreviewViewState extends State<_PdfPreviewView> {
           Navigator.of(context).pop(
             ScanResult(
               scannedPages: state.images,
-              title: state.title,
               pdfFile: state.pdfFile,
             ),
           );
@@ -169,45 +173,14 @@ class _PdfPreviewViewState extends State<_PdfPreviewView> {
             },
           ),
           Expanded(
-            child: GestureDetector(
-              onTap: () async {
-                final newTitle = await TitleDialog.show(
-                  context,
-                  config: config,
-                  initialTitle: state.title,
-                );
-                if (newTitle != null && context.mounted) {
-                  context
-                      .read<PdfPreviewBloc>()
-                      .add(PdfPreviewRenameTitle(newTitle));
-                }
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: Text(
-                      state.title,
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  SvgPicture.asset(
-                    'packages/softy_scanner/lib/src/assets/icons/ic_edit.svg',
-                          width: 18,
-                    height: 18,
-                    colorFilter: const ColorFilter.mode(
-                      Color(0xFF4C5063),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ],
+            child: Text(
+              state.title,
+              style: const TextStyle(
+                color: Colors.black87,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           if (state.isReorderMode)
@@ -409,7 +382,7 @@ class _PdfPreviewViewState extends State<_PdfPreviewView> {
               label: config.modifyLabel,
               onTap: () {
                 Navigator.of(context).pop(
-                  ScanResult(scannedPages: state.images, title: state.title),
+                  ScanResult(scannedPages: state.images),
                 );
               },
             ),
